@@ -48,23 +48,17 @@ Article.fetchAll = () => {
   if (localStorage.rawData) {
     Article.loadAll(JSON.parse(localStorage.getItem('rawData')));
     articleView.initIndexPage();
-    console.log('hi localStorage')
   } else {
     let hackerInfo = 'data/hackerIpsum.json';
-    console.log('hey to you too')
 
     $.getJSON(hackerInfo)
       .then (data => {
         Article.loadAll(data);
-        //save to local storage
         localStorage.setItem('rawData', JSON.stringify(data));
         articleView.initIndexPage();
       })
       .catch( err => console.error('Watch out', err) );
-
-    // (Do below within callback function) -- watch for syntax
-    // set to localStorage (setItem (what called in localstorage(rawData), value), stringify)
-    // initiate page
+    // How we determined sequence.
+    // We needed to figure out which functions were based on loading the JSON data. We first worked on the else statement since there wasn't any data in localStorage. And we need to start here if we want to load it upon restart. We put the data function in the .then because the data loads from the JSON string file and that data needs to be loaded before sending it to localStorage and ultimately, the page. Once the data is loaded, we moved to the first part of the if statement. Because there is info in the localStorage at this point, we need to take all that info and parse it down and initiate it again in the index.html.
   }
 }
-// how we determined sequence
